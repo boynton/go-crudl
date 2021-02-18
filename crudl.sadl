@@ -48,11 +48,11 @@ type NotFound Struct {
 // Create the item. The item with the updated modified time is returned.
 //
 action CreateItem POST "/items" {
-	item Item // The new item
+	entity Item // The new item
 	
 	// The expected response upon creation of the item in the store
 	expect 201 {
-		item Item
+		entity Item
 	}
 	
 	// The response if the item or the id is malformed in any way. Each except type can only occur
@@ -70,7 +70,7 @@ action GetItem GET "/items/{id}" {
 	
 	// The expected response with the item
 	expect 200 {
-		item Item
+		entity Item
 		modified Timestamp (header="Last-modified") // Just an example of output headers
 	}
 	
@@ -86,11 +86,11 @@ action GetItem GET "/items/{id}" {
 //
 action PutItem PUT "/items/{id}" {
 	id ItemId
-	item Item // The new item
+	entity Item // The new item
 	
 	// The expected response if the item exists and was updated
 	expect 200 {
-		item Item
+		entity Item
 	}
 	
 	// The response if the item or the id is malformed in any way
@@ -122,7 +122,7 @@ action ListItems GET "/items?limit={limit}&skip={skip}" {
 	
 	//return a list
 	expect 200 {
-		items ItemListing
+		entity ItemListing
 	}
 }
 

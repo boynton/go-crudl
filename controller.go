@@ -20,7 +20,7 @@ func NewController() *CrudlController {
 }
 
 func (c *CrudlController) CreateItem(req *crudl.CreateItemRequest) (*crudl.CreateItemResponse, error) {
-	item := req.Item
+	item := req.Entity
 	if item == nil {
 		return nil, &crudl.BadRequest{Message: "Bad Request - entity was not a valid Item"}
 	}
@@ -33,7 +33,7 @@ func (c *CrudlController) CreateItem(req *crudl.CreateItemRequest) (*crudl.Creat
 	item.Modified = &crudl.Timestamp{Time: time.Now()}
 	c.storage[key] = item
 	return &crudl.CreateItemResponse{
-		Item: item,
+		Entity: item,
 	}, nil
 }
 
@@ -47,7 +47,7 @@ func (c *CrudlController) GetItem(req *crudl.GetItemRequest) (*crudl.GetItemResp
 			}
 		}
 		return &crudl.GetItemResponse{
-			Item: item,
+			Entity: item,
 			Modified: item.Modified,
 		}, nil
 	}
@@ -58,11 +58,11 @@ func (c *CrudlController)PutItem(req *crudl.PutItemRequest) (*crudl.PutItemRespo
 	c.mutex.Lock()
 	defer c.mutex.Unlock()
    if _, ok := c.storage[req.Id]; ok {
-		item := req.Item
+		item := req.Entity
 		item.Modified = &crudl.Timestamp{Time: time.Now()}
 		c.storage[req.Id] = item
 		return &crudl.PutItemResponse{
-			Item: item,
+			Entity: item,
 		}, nil
 	}
 	return nil, &crudl.NotFound{Message: fmt.Sprintf("Item not found: %s", req.Id)}
@@ -104,7 +104,7 @@ func (c *CrudlController)ListItems(req *crudl.ListItemsRequest) (*crudl.ListItem
 		lst = append(lst, v)
 	}
 	return &crudl.ListItemsResponse{
-		Items: &crudl.ItemListing{
+		Entity: &crudl.ItemListing{
 			Items: lst,
 			Next: next,
 		},
