@@ -8,7 +8,7 @@ import(
 )
 
 func main() {
-	client, err := crudl.NewClient("http://localhost:8080")
+	client, err := crudl.NewClient("http://localhost:8000")
 	if err != nil {
 		log.Fatalf("Cannot create client: %v\n", err)
 	}

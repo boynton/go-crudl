@@ -2,6 +2,7 @@ package main
 
 import(
 	"fmt"
+	"sort"
 	"sync"
 	"time"
 
@@ -89,19 +90,28 @@ func (c *CrudlController)ListItems(req *crudl.ListItemsRequest) (*crudl.ListItem
 	}
 	skip := req.Skip
 	lst := make([]*crudl.Item, 0)
-	for k, v := range c.storage {
-		if skip != "" {
-			if skip != k {
-				continue
+	if len(c.storage) > 0 {
+		keys := make([]string, 0, len(c.storage))
+		for k, _ := range c.storage {
+			keys = append(keys, string(k))
+		}
+		sort.Strings(keys)
+		for _, ks := range keys {
+			k := crudl.ItemId(ks)
+			v := c.storage[k]
+			if skip != "" {
+				if skip != k {
+					continue
+				}
+				skip = ""
 			}
-			skip = ""
+			count++
+			if count > limit {
+				next = k
+				break
+			}
+			lst = append(lst, v)
 		}
-		count++
-		if count > limit {
-			next = k
-			break
-		}
-		lst = append(lst, v)
 	}
 	return &crudl.ListItemsResponse{
 		Entity: &crudl.ItemListing{
