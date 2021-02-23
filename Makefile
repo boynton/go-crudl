@@ -49,7 +49,7 @@ clean::
 
 swagger: $(TARGET)/crudl.json
 	@echo browse to http://localhost:8080/index.html
-	local-swagger crudl_oas.json
+	local-swagger $(TARGET)/crudl.json
 
 $(TARGET)/crudl.json: crudl.sadl
 	sadl -g openapi crudl.sadl > $(TARGET)/crudl.json
