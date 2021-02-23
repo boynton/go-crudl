@@ -3,7 +3,23 @@ Simple example implementation of a web server defined in SADL.
 
 ## Usage
 
-Use `make run` to generate, build, and run the server. Then in a separate terminal:
+Use `make run` to generate, build, and run the server. Then in a separate terminal do some client tests.
+
+### Generated Go client
+
+```
+make test
+```
+
+### Swagger-ui
+
+```
+make swagger
+```
+
+Then, open the echoed URL with a web browser.
+
+### Curl
 
 ```
 $ curl -sv -X POST -H "Content-type: application/json" -d '{"id":"item1","modified":"2021-02-13T00:02:04.609Z","data":"Hi there!"}' 'http://localhost:8080/items'

@@ -17,7 +17,7 @@ run:: build
 	$(TARGET)/bin/$(CMD)
 
 $(TARGET)/bin/$(CMD) $(TARGET)/bin/test:
-	(cd $(TARGET) && go build -o bin/ example/...)
+	(cd $(TARGET) && mkdir -p bin && go build -o bin/ example/...)
 
 $(TARGET)/go.mod:
 	(cd $(TARGET) && go mod init example && go mod tidy)
